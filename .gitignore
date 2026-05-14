@@ -42,4 +42,9 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+# dotenv environment variable files
 .env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
