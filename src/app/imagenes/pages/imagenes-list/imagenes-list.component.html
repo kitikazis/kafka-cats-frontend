@@ -1,7 +1,25 @@
-<h2>Imágenes</h2>
-<div class="imagenes-grid">
-  <div class="imagen-card" *ngFor="let imagen of imagenes">
-    <img [src]="imagen.url" [alt]="imagen.id" />
-    <button (click)="addFavorito(imagen.id)">🤍 Agregar a favorito</button>
+<div class="container mt-4">
+  <h2 class="mb-4">Imágenes Aleatorias</h2>
+
+  <div class="error-box" *ngIf="errorMessage">
+    <div class="error-header">
+      <span>⚠️ <strong>Error</strong></span>
+      <button class="error-close" (click)="cerrarError()">✕</button>
+    </div>
+    <pre class="error-body">{{ errorMessage }}</pre>
+  </div>
+
+  <div class="imagenes-grid">
+    <div class="imagen-card" *ngFor="let imagen of imagenes">
+      <img [src]="imagen.url" [alt]="'Gato ' + imagen.id" class="imagen-gato" />
+      <a class="imagen-url" [href]="imagen.url" target="_blank" rel="noopener noreferrer">
+        {{ imagen.url }}
+      </a>
+      <button class="btn-favorito" (click)="addFavorito(imagen.id)">♥ Agregar a favorito</button>
+    </div>
+  </div>
+
+  <div class="text-center mt-3">
+    <button class="btn btn-primary" (click)="recargarImagenes()">🔄 Cargar nuevas imágenes</button>
   </div>
 </div>

@@ -4,17 +4,16 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'inicio',
+    redirectTo: 'gatos',
     pathMatch: 'full',
   },
   {
     path: 'imagenes',
-    loadChildren: () =>
-      import('./imagenes/imagenes-routing.module').then((m) => m.ImagenesRoutingModule),
+    loadChildren: () => import('./imagenes/imagenes.module').then((m) => m.ImagenesModule),
   },
   {
     path: 'gatos',
-    loadChildren: () => import('./gatos/gatos-routing.module').then((m) => m.GatosRoutingModule),
+    loadChildren: () => import('./gatos/gatos.module').then((m) => m.GatosModule),
   },
 ];
 
