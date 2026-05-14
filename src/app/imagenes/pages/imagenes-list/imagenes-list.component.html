@@ -1,0 +1,7 @@
+<h2>Imágenes</h2>
+<div class="imagenes-grid">
+  <div class="imagen-card" *ngFor="let imagen of imagenes">
+    <img [src]="imagen.url" [alt]="imagen.id" />
+    <button (click)="addFavorito(imagen.id)">🤍 Agregar a favorito</button>
+  </div>
+</div>

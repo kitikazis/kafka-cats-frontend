@@ -1,0 +1,19 @@
+<div class="gatos-header">
+  <h2>Gatos</h2>
+  <button class="btn-nuevo" (click)="nuevoGato()">+ Nuevo Gato</button>
+</div>
+
+<div class="gatos-grid">
+  <div class="gato-card" *ngFor="let gato of gatos">
+    <img [src]="gato.foto" [alt]="gato.nombre" />
+    <p>
+      <strong>{{ gato.nombre }}</strong>
+    </p>
+    <p>Raza: {{ gato.raza }}</p>
+    <p>Edad: {{ gato.edad }} años</p>
+    <div class="gato-actions">
+      <button class="btn-editar" (click)="editarGato(gato._id!)">✏️</button>
+      <button class="btn-eliminar" (click)="eliminarGato(gato._id!)">🗑️</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+src/app/
+├── core/
+│   └── navbar/
+│       ├── navbar.component.html
+│       ├── navbar.component.scss
+│       └── navbar.component.ts
+│
+├── imagenes/
+│   ├── models/
+│   │   └── imagen.model.ts
+│   ├── pages/
+│   │   └── imagenes-list/
+│   │       ├── imagenes-list.component.html
+│   │       ├── imagenes-list.component.scss
+│   │       └── imagenes-list.component.ts
+│   ├── resolvers/
+│   │   └── imagenes.resolver.ts
+│   ├── imagenes.module.ts
+│   ├── imagenes-routing.module.ts
+│   └── imagenes.service.ts
+│
+├── gatos/
+│   ├── models/
+│   │   └── gato.model.ts
+│   ├── pages/
+│   │   ├── gatos-list/
+│   │   │   ├── gatos-list.component.html
+│   │   │   ├── gatos-list.component.scss
+│   │   │   └── gatos-list.component.ts
+│   │   └── gato-form/
+│   │       ├── gato-form.component.html
+│   │       ├── gato-form.component.scss
+│   │       └── gato-form.component.ts
+│   ├── resolvers/
+│   │   ├── gatos.resolver.ts
+│   │   └── gato-detail.resolver.ts
+│   ├── gatos.module.ts
+│   ├── gatos-routing.module.ts
+│   └── gatos.service.ts
+│
+├── app.component.html
+├── app.component.scss
+├── app.component.ts
+├── app.module.ts
+└── app-routing.module.ts
