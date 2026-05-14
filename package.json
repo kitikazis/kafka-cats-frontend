@@ -6,7 +6,14 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    
+    "save": "git add . && git commit -m \"chore: auto save\" && git push",
+    "commit": "git add . && git commit -m",
+    "push": "git push origin main",
+    "feat": "git add . && git commit -m \"feat: nueva funcionalidad\" && git push",
+    "fix": "git add . && git commit -m \"fix: correcciones\" && git push",
+    "docs": "git add . && git commit -m \"docs: actualizar documentación\" && git push"
   },
   "private": true,
   "packageManager": "npm@11.5.2",

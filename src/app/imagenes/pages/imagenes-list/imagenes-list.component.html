@@ -39,33 +39,10 @@
   </div>
 
   <div class="imagenes-grid">
-    <div class="imagen-card" *ngFor="let imagen of paginatedImagenesList">
+    <div class="imagen-card" *ngFor="let imagen of imagenes">
       <img [src]="imagen.url" [alt]="'Gato ' + imagen.id" class="imagen-gato" loading="lazy" />
-      <a class="imagen-url" [href]="imagen.url" target="_blank" rel="noopener noreferrer">
-        {{ imagen.url }}
-      </a>
       <button class="btn-favorito" (click)="addFavorito(imagen.id)">♥ Agregar a favorito</button>
     </div>
-  </div>
-
-  <div class="pagination-controls text-center" *ngIf="totalPagesCount > 1">
-    <button
-      class="btn btn-secondary"
-      type="button"
-      [disabled]="currentPage === 1"
-      (click)="prevPage()"
-    >
-      « Anterior
-    </button>
-    <span>Página {{ currentPage }} de {{ totalPagesCount }}</span>
-    <button
-      class="btn btn-secondary"
-      type="button"
-      [disabled]="currentPage === totalPagesCount"
-      (click)="nextPage()"
-    >
-      Siguiente »
-    </button>
   </div>
 
   <div class="text-center mt-3">

@@ -16,10 +16,6 @@ export class ImagenesListComponent implements OnInit {
   selectedFavoritoId: number | null = null;
   showFavoritosPanel = false;
   errorMessage: string | null = null;
-  currentPage = 1;
-  pageSize = 6;
-  paginatedImagenesList: Imagen[] = [];
-  totalPagesCount: number = 1;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,8 +24,6 @@ export class ImagenesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.imagenes = this.route.snapshot.data['imagenes'];
-    this.currentPage = 1;
-    this.updatePagination();
     this.cargarFavoritos();
   }
 
@@ -62,34 +56,11 @@ export class ImagenesListComponent implements OnInit {
     this.copyFavoritoId(favoritoId);
   }
 
-  updatePagination(): void {
-    this.totalPagesCount = Math.max(1, Math.ceil(this.imagenes.length / this.pageSize));
-    const start = (this.currentPage - 1) * this.pageSize;
-    this.paginatedImagenesList = this.imagenes.slice(start, start + this.pageSize);
-  }
-
-  prevPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage -= 1;
-      this.updatePagination();
-    }
-  }
-
-  nextPage(): void {
-    if (this.currentPage < this.totalPagesCount) {
-      this.currentPage += 1;
-      this.updatePagination();
-    }
-  }
-
   recargarImagenes(): void {
     this.errorMessage = null;
-    // Pasamos "true" para obligar al servicio a destruir la caché e ir al backend
     this.imagenesService.getImagenes(true).subscribe({
       next: (data) => {
         this.imagenes = data;
-        this.currentPage = 1;
-        this.updatePagination();
       },
       error: (err) => {
         this.errorMessage = `No se pudieron cargar las imágenes. ${this.getErrorDetail(err)}`;

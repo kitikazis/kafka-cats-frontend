@@ -1,14 +1,14 @@
-// imagenes.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, shareReplay } from 'rxjs';
 import { Imagen, Favorito } from './models/imagen.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ImagenesService {
-  private apiUrl = 'http://localhost:3000/imagenes';
+  private apiUrl = `${environment.apiUrl}/imagenes`;
 
   private imagenesCache$: Observable<Imagen[]> | null = null;
   private favoritosCache$: Observable<Favorito[]> | null = null;
