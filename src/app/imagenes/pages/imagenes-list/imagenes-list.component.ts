@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { Imagen } from '../../models/imagen.model';
+import { Favorito, Imagen } from '../../models/imagen.model';
 import { ImagenesService } from '../../imagenes.service';
 
 @Component({
@@ -11,7 +12,14 @@ import { ImagenesService } from '../../imagenes.service';
 })
 export class ImagenesListComponent implements OnInit {
   imagenes: Imagen[] = [];
+  favoritos: Favorito[] = [];
+  selectedFavoritoId: number | null = null;
+  showFavoritosPanel = false;
   errorMessage: string | null = null;
+  currentPage = 1;
+  pageSize = 6;
+  paginatedImagenesList: Imagen[] = [];
+  totalPagesCount: number = 1;
 
   constructor(
     private route: ActivatedRoute,
@@ -20,34 +28,96 @@ export class ImagenesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.imagenes = this.route.snapshot.data['imagenes'];
-    console.log('Imágenes cargadas:', this.imagenes);
+    this.currentPage = 1;
+    this.updatePagination();
+    this.cargarFavoritos();
   }
 
   addFavorito(imageId: string): void {
     this.errorMessage = null;
     this.imagenesService.agregarFavorito(imageId).subscribe({
-      next: () => alert('Imagen agregada a favoritos ✅'),
+      next: () => this.cargarFavoritos(),
       error: (err) => {
         this.errorMessage = `No se pudo agregar a favoritos. ${this.getErrorDetail(err)}`;
       },
     });
   }
 
+  cargarFavoritos(): void {
+    this.errorMessage = null;
+    this.imagenesService.getFavoritos().subscribe({
+      next: (data) => (this.favoritos = data),
+      error: (err) => {
+        this.errorMessage = `No se pudieron cargar los favoritos. ${this.getErrorDetail(err)}`;
+      },
+    });
+  }
+
+  toggleFavoritosPanel(): void {
+    this.showFavoritosPanel = !this.showFavoritosPanel;
+  }
+
+  seleccionarFavorito(favoritoId: number): void {
+    this.selectedFavoritoId = favoritoId;
+    this.copyFavoritoId(favoritoId);
+  }
+
+  updatePagination(): void {
+    this.totalPagesCount = Math.max(1, Math.ceil(this.imagenes.length / this.pageSize));
+    const start = (this.currentPage - 1) * this.pageSize;
+    this.paginatedImagenesList = this.imagenes.slice(start, start + this.pageSize);
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage -= 1;
+      this.updatePagination();
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPagesCount) {
+      this.currentPage += 1;
+      this.updatePagination();
+    }
+  }
+
   recargarImagenes(): void {
     this.errorMessage = null;
-    this.imagenesService.getImagenes().subscribe({
-      next: (data) => (this.imagenes = data),
+    // Pasamos "true" para obligar al servicio a destruir la caché e ir al backend
+    this.imagenesService.getImagenes(true).subscribe({
+      next: (data) => {
+        this.imagenes = data;
+        this.currentPage = 1;
+        this.updatePagination();
+      },
       error: (err) => {
         this.errorMessage = `No se pudieron cargar las imágenes. ${this.getErrorDetail(err)}`;
       },
     });
   }
 
+  copyFavoritoId(favoritoId: number): void {
+    const texto = String(favoritoId);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(texto).then(
+        () => {
+          alert(`ID de favorito copiado: ${texto}`);
+        },
+        () => {
+          alert(`No se pudo copiar el ID ${texto}.`);
+        },
+      );
+    } else {
+      alert(`Copia manualmente este ID: ${texto}`);
+    }
+  }
+
   cerrarError(): void {
     this.errorMessage = null;
   }
 
-  private getErrorDetail(err: any): string {
+  private getErrorDetail(err: HttpErrorResponse | Error | any): string {
     if (err?.status === 0)
       return 'No hay conexión con el servidor (verifique que el backend esté corriendo).';
     if (err?.status === 404) return 'Recurso no encontrado (404).';

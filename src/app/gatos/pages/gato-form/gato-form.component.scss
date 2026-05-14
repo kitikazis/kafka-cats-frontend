@@ -1,0 +1,114 @@
+h2 {
+  margin-bottom: 1.5rem;
+}
+
+.gato-form {
+  max-width: 600px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
+}
+
+.form-group {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.form-group label {
+  font-weight: 700;
+}
+
+.form-group input {
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.form-group small {
+  color: #dc3545;
+  font-size: 0.85rem;
+}
+
+.favoritos-urls {
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+}
+
+.favoritos-urls h3 {
+  margin-top: 0;
+}
+
+.favorito-url {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.favorito-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.favorito-url img {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.favorito-url button {
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  border: none;
+  background: #2196f3;
+  color: white;
+  cursor: pointer;
+}
+
+.selected-label {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.form-actions button {
+  padding: 0.85rem 1.4rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.secondary {
+  background: #757575;
+  color: white;
+}
+
+.form-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.form-actions .cancel {
+  background: #f44336;
+  color: white;
+}
+
+.form-actions button:not(.cancel) {
+  background: #4caf50;
+  color: white;
+}

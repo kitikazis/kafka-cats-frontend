@@ -19,7 +19,19 @@ export class GatosListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.gatos = this.route.snapshot.data['gatos'];
+    // Toma los datos que el GatosResolver ya cargó antes de renderizar la vista.
+    this.gatos = this.route.snapshot.data['gatos'] || [];
+  }
+
+  loadGatos(): void {
+    this.gatosService.getGatos().subscribe({
+      next: (data) => {
+        this.gatos = data;
+      },
+      error: () => {
+        alert('Error al cargar los gatos.');
+      },
+    });
   }
 
   nuevoGato(): void {

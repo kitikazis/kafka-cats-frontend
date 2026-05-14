@@ -1,1 +1,149 @@
-<p>gato-form works!</p>
+<div class="container mt-4">
+  <h2>{{ isEdit ? 'Editar Gato' : 'Nuevo Gato' }}</h2>
+
+  <form [formGroup]="gatoForm" (ngSubmit)="onSubmit()" class="gato-form">
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input id="nombre" type="text" formControlName="nombre" />
+      <small *ngIf="gatoForm.get('nombre')?.invalid && gatoForm.get('nombre')?.touched"
+        >El nombre es requerido.</small
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="raza">Raza</label>
+      <input id="raza" type="text" formControlName="raza" />
+      <small *ngIf="gatoForm.get('raza')?.invalid && gatoForm.get('raza')?.touched"
+        >La raza es requerida.</small
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="edad">Edad</label>
+      <input id="edad" type="number" formControlName="edad" min="0" />
+      <small *ngIf="gatoForm.get('edad')?.invalid && gatoForm.get('edad')?.touched"
+        >La edad es requerida y debe ser 0 o mayor.</small
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="foto">Foto (URL)</label>
+      <div style="display: flex; gap: 10px">
+        <input
+          id="foto"
+          type="text"
+          formControlName="foto"
+          placeholder="Pega una URL"
+          style="flex: 1"
+        />
+        <button type="button" (click)="openModal()">Buscar en Favoritos</button>
+      </div>
+      <small *ngIf="gatoForm.get('foto')?.invalid && gatoForm.get('foto')?.touched"
+        >La URL es requerida.</small
+      >
+    </div>
+
+    <div class="form-actions">
+      <button type="submit">
+        {{ isEdit ? 'Actualizar' : 'Crear' }}
+      </button>
+      <button type="button" class="cancel" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+
+  <!-- Modal de Favoritos -->
+  <div
+    class="modal-overlay"
+    *ngIf="showModal"
+    style="
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    "
+  >
+    <div
+      class="modal-content"
+      style="
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        width: 80%;
+        max-width: 600px;
+        max-height: 80vh;
+        overflow-y: auto;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 15px;
+        "
+      >
+        <h3 style="margin: 0">Seleccionar Favorito ({{ favoritos.length }})</h3>
+        <button
+          type="button"
+          (click)="closeModal()"
+          style="cursor: pointer; background: transparent; border: none; font-size: 1.5rem"
+        >
+          ✕
+        </button>
+      </div>
+
+      <ng-container *ngIf="favoritos.length > 0; else noFavoritos">
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+          "
+        >
+          <div
+            *ngFor="let favorito of paginatedFavoritosList"
+            style="border: 1px solid #ccc; padding: 10px; border-radius: 5px; text-align: center"
+          >
+            <img
+              [src]="favorito.image.url"
+              [alt]="'Favorito ' + favorito.image_id"
+              style="
+                width: 100%;
+                height: 100px;
+                object-fit: cover;
+                margin-bottom: 10px;
+                border-radius: 4px;
+              "
+            />
+            <button
+              type="button"
+              (click)="usarFavorito(favorito)"
+              style="width: 100%; padding: 8px"
+            >
+              Usar imagen
+            </button>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 15px">
+          <button type="button" (click)="prevPage()" [disabled]="currentPage === 1">
+            Anterior
+          </button>
+          <span>Página {{ currentPage }} de {{ totalPagesCount }}</span>
+          <button type="button" (click)="nextPage()" [disabled]="currentPage === totalPagesCount">
+            Siguiente
+          </button>
+        </div>
+      </ng-container>
+      <ng-template #noFavoritos>
+        <p>No tienes favoritos aún. Guarda alguno desde el módulo de imágenes.</p>
+      </ng-template>
+    </div>
+  </div>
+</div>

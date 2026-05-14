@@ -4,4 +4,5 @@ export interface Gato {
   raza: string;
   edad: number;
   foto: string;
+  favoritoId?: number;
 }
