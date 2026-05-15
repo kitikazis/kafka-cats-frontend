@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+// Test de commit automático
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
